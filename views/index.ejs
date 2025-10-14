@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Index
+        </title>
+        
+        <link href="nav.css" type="text/css" rel="stylesheet">
+
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family:'Courier New', Courier, monospace;
+            }
+
+            .background {
+                background-image: url('./background_anima.png');
+                position: absolute;
+                background-size: cover;
+                opacity: 0.7;
+                z-index: -1;
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body style="margin: 0px;">
+        <%- include('header') %>
+        <img class="background">
+
+        <div style="color: white; text-align: center; width: 100%; margin-top: 100px;">
+            <h1 style="font-size: 40px;">개발자토론마당</h1>
+            전자게시판을 통한 기사투고 및 열람을 진행할수 있으며 실시간대회를 리용하여 토론을 진행할수 있습니다.
+        </div>
+        
+    </body>    
+</html>

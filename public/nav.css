@@ -1,0 +1,47 @@
+nav {
+    background-color: rgb( 50,  50,  50);
+    padding: 10px 70px;
+    width:  100%;
+    font-size: 20px;
+}
+
+nav::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: royalblue;
+    font-size: 13px;
+    padding: 10px;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    list-style-type: none;
+    width: 100%;
+}
+
+.left {
+    float: left;
+}
+
+.right{
+    margin: auto;
+    float: right;
+}
+
+a:hover {
+    color: red;
+}
+
+.nameSite {
+    font-size: 15px;
+    color: white;
+    padding: 9px;
+}
