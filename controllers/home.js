@@ -19,19 +19,37 @@ exports.login = (req, res) => {
 exports.register = (req, res) => {
     // const newUploadDir = __dirname + "/.." + uploadDir;
     const newUploadDir = path.join(__dirname, uploadDir);
+    
     const form = new multiparty.Form({uploadDir: newUploadDir});
 
     form.parse(req, (err, fields, files) => {
         if(err)
             console.log(err);
-        if(files) {
-            const uploadFile = files.character[0];
+        if(files && files.character && files.character.length > 0) {
+            const uploadedFile = files.character[0];
             
             const nowDate = new Date();
-            const newFileName = nowDate.getTime();
+            const newFileName = nowDate.getTime() + path.extname(uploadedFile.originalFilename);
             const newFilePath = path.join(newUploadDir, newFileName.toString());
-            console.log(uploadFile.path);
-            console.log(newFilePath);
+
+            fs.rename(uploadedFile.path, newFilePath, function(err) {
+                if (err) {
+                    return res.json(err);
+                }
+                else {
+                    let response = {
+                        message: 'Succefully Uploaded',
+                        filename: newFileName
+                    };
+                    res.json(response);
+                }
+            });
+        } 
+        else {
+            let response = {
+                message : 'Select you File'
+            };
+            res.json(response);
         }
     });
 }
