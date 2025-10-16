@@ -6,5 +6,6 @@ const homeController = require('../controllers/home');
 router.get('/', homeController.index);
 router.get('/login', homeController.login);
 router.get('/register', homeController.registerView);
+router.post('/register', homeController.register);
 
 module.exports = router;
