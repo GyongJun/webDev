@@ -1,8 +1,7 @@
 const fs = require('fs');
 const multiparty = require('multiparty');
 const path = require('path');
-
-const uploadDir = '../public/img/uploads';
+const uploadDir = require('../config/key').uploadDir;
 
 exports.index = (req, res) => {
     res.render('index');
