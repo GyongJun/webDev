@@ -13,6 +13,18 @@ app.set('view engine', 'ejs');
 
 const db = require('./config/key').monogoURI;
 
+const config = require('./config/key');
+const session = require('express-session');
+const flash = require('express-flash');
+
+
+app.use(session({
+    saveUninitialized : true,
+    resave : true,
+    secret : config.secretOrKey
+}));
+app.use(flash());
+
 mongoose.connect(db)
     .then(() => console.log('monoDB에 접속성공'))
     .catch(err => console.log(err));

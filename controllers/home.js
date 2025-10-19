@@ -6,7 +6,7 @@ const uploadDir = require('../config/key').uploadDir;
 
 const userModel = require('../models/User')
 const bcrypt = require('bcryptjs');
-
+const validateRegister = require('../validations/register');
 
 exports.index = (req, res) => {
     res.render('index');
@@ -29,6 +29,40 @@ exports.register = (req, res) => {
     form.parse(req, (err, fields, files) => {
         if(err)
             console.log(err);
+
+        const data = {
+            name : fields.name[0],
+            email : fields.email[0],
+            password : fields.password[0],
+            password2 : fields.password2[0]
+        };
+
+        const {errors, isValid} = validateRegister(data);
+
+        if(!isValid) {
+            if (errors.name) {
+                req.flash("name", errors.name);
+            }
+
+            if(errors.email) {
+                req.flash("email", errors.email);
+            }
+
+            if(errors.password) {
+                req.flash("password", errors.password);
+            }
+            
+            if(errors.password2) {
+                req.flash("password2", errors.password2);
+            }
+
+            if(files) {
+                fs.unlink(files.character[0].path, err => {});
+            }
+
+            return res.render('register');
+        }
+        
         if(files && files.character && files.character.length > 0) {
             const uploadedFile = files.character[0];
             
