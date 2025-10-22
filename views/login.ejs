@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Log In
+        </title>
+
+        <link href="./header.css" rel="stylesheet" type="text/css">
+        <link href="./login.css" rel="stylesheet" type="text/css">
+        <link href="./footer.css" rel="stylesheet" type="text/css">
+
+    </head>
+
+    <body>
+        <div class="container">
+            <%- include('header') %>
+            <main>
+                <form method="post">
+                    <div>
+                        <h3>이름</h3> 
+                        <input type="text" name="name" class="data" onfocus="styleChange()">
+                    </div>
+                    
+                    <div>
+                        <h3>Email</h3>
+                        <input type="text" name="email" class="data">
+                    </div>
+
+                    <input type="submit" class="submit" value="Submit">
+                </form>
+            </main>
+            <%- include('footer') %>
+        </div>
+    </body>
+</html>
