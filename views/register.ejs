@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+        <link href="./nav.css" type="text/css" rel="stylesheet">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0px;
+                padding: 0px;
+            }
+
+            .personalData {
+                width: 100%;
+                margin: auto;
+                margin-top: 5px; 
+                margin-bottom: 5px;
+                border-radius: 3px;
+                height: 40px;
+                padding-left: 10px;
+                font-size: 20px;
+            }
+
+            .formStyle {
+                width: 50%;
+                margin: auto;
+                overflow: hidden;
+            }
+            .login {
+                font-size: 40px;
+                text-align: center;
+            }
+            
+            .errorMessage {
+                color: red;
+                font-size: 15px;
+                margin: 0px;
+                padding: 0px;
+                padding-left: 10px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <%- include('header') %>
+
+        <form class="formStyle" method="post" action="/register" enctype="multipart/form-data">
+            <h1 class="login">사용자 등록</h1>
+            <input type="text" class="personalData" placeholder="Name" id="12" name="name">
+                <% if (messages.name) { %>
+                    <div class="errorMessage">
+                        <%= messages.name %>
+                    </div>
+                <% } %>
+            <input type="text" class="personalData" placeholder="Your Email Adress" name="email">
+                <% if (messages.email) { %> 
+                    <div class="errorMessage">
+                        <%= messages.email %>
+                    </div>
+                <% } %>
+            화상: <input type="file" name="character" class="">
+            <input type="password" class= "personalData" name="password" id="123">
+                <% if(messages.password) { %>
+                    <div class="errorMessage">
+                        <%= messages.password %>
+                    </div>
+                <% } %>
+            <input type="password" class="personalData" name="password2" placeholder="Confirm your password">
+                <% if(messages.password2) { %>
+                    <div class="errorMessage">
+                        <%= messages.password2 %>
+                    </div>
+                <% } %>
+            <input type="submit" class="personalData" name="login" value = "Log In" style="background-color: royalblue; color: white;">
+        </form>
+    </body>
+    <script>
+    </script>
+</html>

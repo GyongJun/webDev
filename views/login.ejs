@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Log In
+        </title>
+
+        <link href="/header.css" rel="stylesheet" type="text/css">
+        <link href="/login.css" rel="stylesheet" type="text/css">
+        <link href="/footer.css" rel="stylesheet" type="text/css">
+
+    </head>
+
+    <body>
+        <div class="container">
+            <%- include('header') %>
+            <main>
+                <form method="post" action="/login">
+                    <div>
+                        <h3>Email</h3> 
+                        <input type="text" name="email" class="data">
+                        <div class="errorMessage"><%= messages.email %></div>
+                    </div>
+                    
+                    <div>
+                        <h3>암호</h3>
+                        <input type="password" name="password" class="data">
+                        <div class="errorMessage"><%= messages.password %></div>
+                    </div>
+
+                    <input type="submit" class="submit" value="Submit">
+                </form>
+            </main>
+            <%- include('footer') %>
+        </div>
+    </body>
+
+    <% if(messages.noUser) { %>
+        <script>
+            alert('<%= messages.noUser %>');
+        </script>
+    <% } %>
+</html>

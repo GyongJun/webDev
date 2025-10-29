@@ -1,0 +1,22 @@
+
+<header>
+    <nav>
+        <ul class="nav-links">
+            <li class="logo">개발자토론마당</li>
+            <li><a href="/forum">전자게시판</a></li>
+            <li><a href="#">실시간대화</a></li>
+        </ul>
+
+        <% if (session) { %>
+            <ul class="nav-links">
+                <li><a href="/register"><%= session.name %></a></li>
+                <li><a href="/logout">가입탈퇴</a></li>
+            </ul>
+        <% } else { %>     
+            <ul class="nav-links">
+                <li><a href="/register">사용자등록</a></li>
+                <li><a href="/login">사용자가입</a></li>
+            </ul>
+        <% } %>
+    </nav>
+</header>

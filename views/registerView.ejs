@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Registration
+        </title>
+
+        <link href="/header.css" rel="stylesheet" type="text/css">
+        <link href="/footer.css" rel="stylesheet" type="text/css">
+        <link href="/register.css" rel="stylesheet" type="text/css">
+
+        <style>
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <%- include('header') %>
+
+            <main>
+                <form method="post" enctype="multipart/form-data">
+                    <div>
+                        <h3>이름</h3> 
+                        <input type="text" name="name" class="data">
+                        <div class="errorMessage">
+                            <%= messages.name %>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3>Email</h3>
+                        <input type="text" name="email" class="data">
+                        <div class="errorMessage">
+                            <%= messages.email %>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input type="file" name="character" class="file">
+                    </div>
+
+                    <div>
+                        <h3>Enter your password</h3>
+                        <input type="password" name="password" class="data">
+                        <div class="errorMessage">
+                            <%= messages.password %>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Confirm your password</h3>
+                        <input type="password" name="password2" class="data">
+                        <div class="errorMessage">
+                            <%= messages.password2 %>
+                        </div>
+                    </div>
+                    <input type="submit" class="submit" value="Submit">
+                </form>
+            </main>
+            
+            <%- include('footer') %>
+        </div>
+    </body>
+</html>
