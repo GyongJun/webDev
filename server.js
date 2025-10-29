@@ -31,9 +31,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-
-
-
 mongoose.connect(db)
     .then(() => console.log('monoDB에 접속성공'))
     .catch(err => console.log(err));
@@ -42,7 +39,7 @@ const routes = require('./router');
 app.use('/', routes);
 
 
-const posts = require('./router/post');
+const posts = require('./router/post'); 
 app.use('/forum', posts);
 
 

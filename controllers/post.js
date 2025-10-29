@@ -1,6 +1,7 @@
+const { post } = require('jquery');
 const Post = require('../models/Post');
 
-exports.create  = async (req, res) => {
+exports.createPost  = async (req, res) => {
 
     const originalRefer = req.get('Referer');
     const newPost = new Post({
@@ -24,7 +25,7 @@ exports.create  = async (req, res) => {
     }
 }
 
-exports.articleView = async(req, res) => {
+exports.viewPost = async(req, res) => {
     Post.find()
         .populate('user')
         .sort({date : -1})
@@ -55,3 +56,27 @@ exports.updatePost = function(req, res) {
                 });
         });
 };
+
+exports.deletePost = function(req, res) {
+    Post.findById(req.params.id)
+        .then(post => {
+            if(post.user.toString() !== req.session.user._id.toString()) {
+                const result = {status: false, msg: '사용자권한이 없습니다'};
+                return res.json(result);
+            }
+
+            post.deleteOne()
+                .then(() => {
+                    const result = {status: true, msg: '조작이 성공하였습니다.'};
+                    return res.json(result);
+                })
+                .catch(err => {
+                    const result = {status: false, msg: '자료기지조작이 실패하였습니다'};
+                    return res.json(result);
+                });
+        })
+        .catch (err => {
+            const result = {status: false, msg : '자료기지조작이 실패하였습니다.'};
+            return res.json(result);
+        })
+}
