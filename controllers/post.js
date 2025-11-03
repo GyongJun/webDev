@@ -1,4 +1,3 @@
-const { post } = require('jquery');
 const Post = require('../models/Post');
 
 exports.createPost  = async (req, res) => {
@@ -25,7 +24,7 @@ exports.createPost  = async (req, res) => {
     }
 }
 
-exports.viewPost = async(req, res) => {
+exports.postView = async(req, res) => {
     Post.find()
         .populate('user')
         .sort({date : -1})
@@ -79,4 +78,15 @@ exports.deletePost = function(req, res) {
             const result = {status: false, msg : '자료기지조작이 실패하였습니다.'};
             return res.json(result);
         })
+}
+
+exports.commentView = function(req, res) {
+    Post.findById(req.params.id)
+        .populate('user')
+        .then(post => res.render('comment', {post: post}))
+        .catch(err => res.json(err));
+}
+
+exports.commentSend = function(req, res) {
+    
 }

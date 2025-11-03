@@ -77,6 +77,11 @@ main {
     color: white;
     font-size: 15px;
     padding: 10px;
+    transition: 0.3s;
+}
+
+.sendArticle:hover {
+    opacity: 0.8;
 }
 
 .articlesContainer {
@@ -98,7 +103,7 @@ main {
 
 .itemText {
     display: grid;
-    grid-template-rows: 200px auto;
+    grid-template-rows: 1fr auto;   
     gap: 20px;
     padding: 20px;
 }
@@ -109,7 +114,8 @@ main {
 }
 
 .itemMyArticle {
-    height: 100%;
+    min-height: 100%;
+    resize: none;
 }
 
 
@@ -125,6 +131,19 @@ main {
 
 .itemImg h3{
     text-align: center;
+}
+
+.commentBtn {
+    color: white;
+    background-color: royalblue;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+.commentBtn:hover {
+    opacity: 0.9;
 }
 
 .successMessage {
