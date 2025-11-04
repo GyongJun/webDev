@@ -31,16 +31,17 @@
                     </div>
 
                     <div class="article">
+                        <%= post.text %>
                     </div>
                 </div>
 
-            <% if(post.user._id != session._id) { %>    
+            <% if(!session || session._id != post.user._id) { %>    
                 <div class="myCommentContainer">
                     <h3>답변글</h3>
-                    <form class="myCommentMain" method="Post">
+                    <form class="myCommentMain" id="commentForm"  data-post-id ="<%= post._id %>">
                         <textarea placeholder="답변글 내용">
                         </textarea>
-                        <input type="submit" class="sendComment" value="답변하기">
+                        <button type="submit" class="sendComment">답변하기</button>
                     </form>
                 </div>
             <% } %>
@@ -55,9 +56,9 @@
                                 좋은 글입니다.
                             </div>
                             
-                            <btn class="cancelBtn">
+                            <button class="cancelBtn">
                                 X
-                            </btn>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -65,5 +66,5 @@
             <%- include('footer') %>
         </div>
     </body>
-    <script src="/js/article.js"></script>
+    <script src="/js/comment.js"></script>
 </html>

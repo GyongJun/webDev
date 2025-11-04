@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const { post } = require('../router/post');
 
 exports.createPost  = async (req, res) => {
 
@@ -87,6 +88,39 @@ exports.commentView = function(req, res) {
         .catch(err => res.json(err));
 }
 
-exports.commentSend = function(req, res) {
-    
-}
+exports.commentSend = async (req, res) => {
+    try {
+        const postId = req.params.id;
+
+        const post = await Post.findById(postId);
+
+        if(!post) {
+            return res.status(404).json({
+                success: false,
+                message: '게시글을 찾을수 없습니다.'
+            });
+        }
+
+        const newComment = {
+            text: req.body.text,
+            user: req.session.user._id
+        };
+        
+        await post.comments.unshift(newComment);
+        
+        console.log('2');
+        await post.save();
+
+        console.log('3');
+        res.json({
+            success: true,
+            message: '답변이 등록되였습니다',
+            comment: newComment
+        });
+    } catch(error) {
+        res.status(500).json({
+            success: false,
+            message: 'Sever 오유'
+        });
+    }
+};
