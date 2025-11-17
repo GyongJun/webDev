@@ -21,7 +21,7 @@ $('#commentForm').on('submit', async function(e) {
 
         if (data.success) {
             alert('답변이 등록되였습니다.');
-            addCommentToUI(data.comment);
+            addCommentToUI(data.comment, data.name);
             $("#commentForm textarea").val('');
         } else {
             alert(data.message);
@@ -32,11 +32,11 @@ $('#commentForm').on('submit', async function(e) {
     }
 });
 
-function addCommentToUI(comment) {
+function addCommentToUI(comment, name) {
     const commentHTML = `
         <div class="commentContainer">
             <div class="commentWriter">
-                ${comment.user}
+                ${name}
             </div>
             <div class="commentMain">
                 <div class="commentText">${comment.text}</div>
@@ -46,4 +46,36 @@ function addCommentToUI(comment) {
     `;
     
     $('.commentsContainer').append(commentHTML);
+}
+
+$('.commentMain').on('submit', async function(e){
+    e.preventDefault();
+
+    const commentId = $(this).data('comment-id');
+    const postId = $(this).data('post-id');
+    
+    const $container = $(this).closest('.commentContainer');
+
+    if(!confirm('정말 삭제하겠습니까')) return;
+
+    try {
+        const response = await fetch(`/forum/comment/${postId}/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if(data.success)
+            deleteCommentFromUI($container);
+
+    } catch(error) {
+        alert(error);
+    }
+});
+
+function deleteCommentFromUI($commentContainer) {
+    $commentContainer.remove();
 }

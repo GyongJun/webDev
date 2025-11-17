@@ -135,13 +135,13 @@ body {
     max-width: 1300px;
     display: grid;
     gap: 20px;
-    border: 2px solid  rgb(200, 200, 200);
-    padding: 20px;
 }
 
 .commentContainer {
     display: grid;
     grid-template-columns: 200px 1fr;
+    border: 2px solid rgb(200, 200, 200);
+    padding: 20px;
     overflow: auto;
 }
 

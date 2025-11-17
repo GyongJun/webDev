@@ -45,23 +45,28 @@
                     </form>
                 </div>
             <% } %>
-                <div class="commentsContainer">
-                    <div class="commentContainer">
-                        <div class="commentWriter">
-                            리원혁
-                        </div>
-                        
-                        <div class="commentMain">
-                            <div class="commetText">
-                                좋은 글입니다.
+
+                <% if(post.comments){ %>
+                    <div class="commentsContainer">
+                        <% post.comments.forEach(comment => { %>
+                            <div class="commentContainer">
+                                <div class="commentWriter">
+                                    <%= comment.user.name %>
+                                </div>
+                                <form class="commentMain" data-comment-id="<%= comment._id %>" data-post-id="<%= post._id %>">
+                                    <div class="commentText">
+                                        <%= comment.text %>
+                                    </div>
+                                    <% if (session && (session._id.toString() === comment.user._id.toString())) {%>
+                                        <button class="cancelBtn" type="submit">
+                                            X
+                                        </button>
+                                    <% } %>
+                                </form>
                             </div>
-                            
-                            <button class="cancelBtn">
-                                X
-                            </button>
-                        </div>
+                        <% }) %>
                     </div>
-                </div>
+                <% } %>
             </div>
             <%- include('footer') %>
         </div>

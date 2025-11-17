@@ -84,6 +84,7 @@ exports.deletePost = function(req, res) {
 exports.commentView = function(req, res) {
     Post.findById(req.params.id)
         .populate('user')
+        .populate('comments.user')
         .then(post => res.render('comment', {post: post}))
         .catch(err => res.json(err));
 }
@@ -92,7 +93,8 @@ exports.commentSend = async (req, res) => {
     try {
         const postId = req.params.id;
 
-        const post = await Post.findById(postId);
+        const post = await Post.findById(postId)
+                                .populate('comments.user');
 
         if(!post) {
             return res.status(404).json({
@@ -107,7 +109,7 @@ exports.commentSend = async (req, res) => {
         };
         
         await post.comments.unshift(newComment);
-        
+
         console.log('2');
         await post.save();
 
@@ -115,12 +117,57 @@ exports.commentSend = async (req, res) => {
         res.json({
             success: true,
             message: '답변이 등록되였습니다',
-            comment: newComment
+            comment: newComment,
+            name: req.session.user.name
         });
     } catch(error) {
         res.status(500).json({
             success: false,
             message: 'Sever 오유'
         });
+    }
+};
+
+exports.commentDelete = async(req, res) => {
+    try {
+        const post = await Post.findById(req.params.postId);
+
+        if(!post) {
+            return res.status(404).json({
+                success: false,
+                message: '게시글을 찾을수 없습니다.'
+            });
+        }
+
+        const comment = post.comments.id(req.params.commentId);
+
+        if(!comment) {
+            return res.status(404).josn({
+                success: false,
+                message: '답변글을 찾을수 없습니다.'
+            });
+        }
+
+        if(comment.user.toString() !== req.session.user._id.toString()) {
+            const result = {
+                success: false,
+                message: '사용자권한이 존재하지 않습니다.'
+            }
+            return res.json(result);
+        }
+
+        comment.deleteOne();
+        await post.save();
+
+        const result = {
+            success: true,
+            message: '삭제조작이 성공하였습니다.'
+        }
+        res.json(result);
+    } catch(error) {
+        res.status(500).json({
+            success: false,
+            message: 'Sever 오유'
+        })
     }
 };

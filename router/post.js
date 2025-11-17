@@ -10,6 +10,7 @@
 
     const commentView = require('../controllers/post').commentView;
     const commentSend = require('../controllers/post').commentSend;
+    const commentDelete = require('../controllers/post').commentDelete;
 
     router.get('/', postView);
     router.post('/', authMiddleWare, createPost);
@@ -18,5 +19,6 @@
 
     router.get('/comment/:id', commentView);
     router.post('/comment/:id', authMiddleWare, completePostValidation, commentSend);
+    router.delete('/comment/:postId/:commentId', authMiddleWare, commentDelete);
 
     module.exports = router;
