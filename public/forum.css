@@ -153,3 +153,30 @@ main {
     font-size: 15px;
     padding: 10px;
 }
+
+.reaction-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.like-btn, .dislike-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.like-btn.active {
+    background: #ff4757;
+    color: white;
+    border-color: #ff4757;
+}
+
+.dislike-btn.active {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}

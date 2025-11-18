@@ -50,8 +50,21 @@
                                             <%= post.text %>
                                         </div>
                                         <div class="btnContainer">
-                                            <button  onclick="">Agree</button>
-                                            <button onclick="">Disagree</button>
+                                            <button type="button" 
+                                                    class="like-btn <%= post.userLiked ? 'active' : '' %>"
+                                                    data-post-id="<%= post._id %>"
+                                                    data-liked="<% post.userLiked %>">
+                                                    Agree
+                                                    <span class="like-count"><%= post.likes.length %></span>
+                                            </button>
+
+                                            <button type="button"
+                                                    class="dislike-btn <%= post.userDisliked ? 'active' : '' %>"
+                                                    data-post-id="<%= post._id %>"
+                                                    data-liked="<%= post.userDisliked %>">
+                                                    Disagree
+                                                    <span class="dislike-count"><%= post.dislikes.length %></span>
+                                            </button>
                                             <a class="commentBtn" href="forum/comment/<%= post._id %>">답변글</a>
                                         </div>
                                     <% } %>

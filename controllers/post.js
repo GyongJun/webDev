@@ -26,18 +26,29 @@ exports.createPost  = async (req, res) => {
 }
 
 exports.postView = async(req, res) => {
-    Post.find()
-        .populate('user')
-        .sort({date : -1})
-        .then(posts => {
-            if(!posts) {
-                req.flash('nopost', '투고된 기사가 없습니다.');
-                return res.render('forum');
-            }
+    try{
+        const posts = await Post.find()
+            .populate('user')
+            .sort({date : -1});
 
-            res.render('forum', {posts : posts});
-        })
-        .catch(err => console.log(err));
+        const postsWithLikeStatus = posts.map(post=> {
+            const userLiked = req.session.user?
+                post.likes.includes(req.session.user._id) : false;
+            const userDisliked = req.session.user?
+                post.dislikes.includes(req.session.user._id) : false;
+
+            return {
+                ...post.toObject(),
+                userLiked: userLiked,
+                userDisliked: userDisliked
+            };
+        });
+        
+        res.render('forum', { posts: postsWithLikeStatus});
+    } catch(error) {
+        console.error('Error:', error);
+        res.status(500).render('error');
+    }
 }
 
 exports.updatePost = function(req, res) {
@@ -171,3 +182,79 @@ exports.commentDelete = async(req, res) => {
         })
     }
 };
+
+exports.addLike = async(req, res) => {
+    try {
+        const postId = req.params.postId;
+        const userId = req.session.user._id;
+
+        const post = await Post.findById(postId);
+
+        if(post.likes.includes(userId)) {
+            return res.json({
+                success: false,
+                message: '이미 찬성단추 누른상태'
+            });
+        }
+
+        if(post.dislikes.includes(userId)) {
+            post.dislikes.pull(userId);
+            post.dislikesCount--;
+        }
+
+        post.likes.push(userId);
+        post.likesCount++;
+
+        await post.save();
+
+        res.json({
+            success: true,
+            likesCount: post.likesCount,
+            dislikesCount: post.dislikesCount
+        });
+    } catch(error) {
+        console.error('좋아요 오유', error);
+        res.status(500).json({
+            success: false,
+            message: 'Sever 오유'
+        });
+    }
+};
+
+exports.addDislike = async(req, res) => {
+    try {
+        const postId = req.params.postId;
+        const userId = req.session.user._id;
+
+        const post = await Post.findById(postId);
+
+        if(post.dislikes.includes(userId)) {
+            return res.json({
+                success: false,
+                message: '이미 반대단추 누른 상태'
+            });
+        }
+
+        if(post.likes.includes(userId)) {
+            post.likes.pull(userId);
+            post.likesCount--;
+        }
+
+        post.dislikes.push(userId);
+        post.dislikesCount++;
+
+        await post.save();
+
+        res.json({
+            success: true,
+            likesCount: post.likesCount,
+            dislikesCount: post.dislikesCount
+        });
+    } catch(error) {
+        console.error('좋아요 오유', error);
+        res.status(500).json({
+            success: false,
+            message: 'Sever 오유'
+        });
+    }
+}

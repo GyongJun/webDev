@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { type } = require('os');
+const { ref } = require('process');
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema ({
@@ -35,7 +36,27 @@ const PostSchema = new Schema ({
                 default : Date.now
             }
         }   
-    ]
+    ],
+
+    likes : [{
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    }],
+
+    likesCount : {
+        type: Number,
+        default: 0
+    },
+
+    dislikes : [{
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    }],
+
+    dislikesCount : {
+        type: Number,
+        default: 0
+    }
 
 });
 
